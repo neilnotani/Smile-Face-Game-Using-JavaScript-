@@ -1,0 +1,87 @@
+<html>
+<head><title>Matching Game.</title>
+<style>
+img{
+position:absolute;
+left:10px;
+topL30px;
+}
+div{
+position:absolute;
+width:500px;
+height:500px;
+}
+
+#rightSide { left: 500px; 
+            border-left:1px solid black; }
+</style>
+<script>
+
+
+
+alert("This game is created by NEIL .P. NOTANI\nIn this game you have to find the extra SMILEY FACE on the lefthand side and click it.\nAfter clicking the right extra SMILEY FACE you will be proceeded to the next level\nIf Incase you click the wrong SMILEY FACE the game will get over\nEnjoy! :)");
+var numberOfFaces=5;
+var count=1;
+function generateFaces(){
+document.getElementById("h").innerHTML = "Level " + count;
+var theLeftSide=document.getElementById("leftSide");
+var theRightSide=document.getElementById("rightSide");
+var i=0;
+while(i<numberOfFaces){
+var p=document.createElement("img");
+p.src="http://home.cse.ust.hk/~rossiter/mooc/matching_game/smile.png";
+var topp=Math.random()*401;
+topp=Math.floor(topp);
+var leftt=Math.random()*401;
+leftt=Math.floor(leftt);
+
+p.style.left=leftt+"px";
+p.style.top=topp+"px";
+theLeftSide.appendChild(p);
+i++;
+}
+var leftSideImages=theLeftSide.cloneNode(true);
+leftSideImages.removeChild(leftSideImages.lastChild);
+theRightSide.appendChild(leftSideImages);
+
+var theBody=document.getElementsByTagName("body")[0];
+
+theLeftSide.lastChild.onclick=
+    function nextLevel(event){
+		count++;
+        event.stopPropagation();
+        numberOfFaces += 5;
+		while(theLeftSide.firstChild){
+		theLeftSide.removeChild(theLeftSide.firstChild);
+		}
+		while(theRightSide.firstChild){
+		theRightSide.removeChild(theRightSide.firstChild);
+		}		
+        generateFaces();
+		
+};
+
+
+theBody.onclick = function gameOver() {
+	while(theBody.firstChild){
+		theBody.removeChild(theBody.firstChild);
+		}
+    alert("Game Over!\nYou clicked the wrong smiley face!\nCongrats! You successfully passed "+(count-1)+" level(s)!");
+    theBody.onclick = null;
+    theLeftSide.lastChild.onclick = null;
+	alert("Refresh the page to Play again!");
+}; 
+}
+
+</script>
+</head>
+<body onload="generateFaces()" style="font-family=verdana; font-style:italic">
+<h1>Matching Game</h1>
+<h2 id="h"></h2>
+<p>Click on the extra smiling face on the left.</p>
+
+<div id="leftSide"></div>
+<div id="rightSide"></div>
+
+</body>
+</html>
